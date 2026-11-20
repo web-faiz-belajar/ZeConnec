@@ -14,10 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pageTitle = document.getElementById("pageTitle");
   const pageSubtitle = document.getElementById("pageSubtitle");
 
-  const navItems = document.querySelectorAll(
-    "[data-page]"
-  );
-
+  const navItems = document.querySelectorAll("[data-page]");
   const pages = document.querySelectorAll(".page");
 
   // PAGE INFORMATION
@@ -62,11 +59,15 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
 
-    pageTitle.textContent =
-      pageInfo[pageName].title;
+    if (pageTitle) {
+      pageTitle.textContent =
+        pageInfo[pageName].title;
+    }
 
-    pageSubtitle.textContent =
-      pageInfo[pageName].subtitle;
+    if (pageSubtitle) {
+      pageSubtitle.textContent =
+        pageInfo[pageName].subtitle;
+    }
 
     if (searchBox) {
       searchBox.hidden = true;
@@ -74,11 +75,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   navItems.forEach(item => {
-
     item.addEventListener("click", () => {
       openPage(item.dataset.page);
     });
-
   });
 
   // THEME
@@ -90,7 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (themeBtn) {
-
     themeBtn.addEventListener("click", () => {
 
       document.body.classList.toggle("dark");
@@ -106,7 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
     });
-
   }
 
   // SEARCH
@@ -116,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       searchBox.hidden = !searchBox.hidden;
 
-      if (!searchBox.hidden) {
+      if (!searchBox.hidden && searchInput) {
         searchInput.focus();
       }
 
@@ -172,6 +169,28 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
+  // SERVICE WORKER
+  if ("serviceWorker" in navigator) {
+
+    navigator.serviceWorker.register(
+      "./service-worker.js"
+    )
+      .then(registration => {
+        console.log(
+          "ZeConnec Service Worker aktif.",
+          registration.scope
+        );
+      })
+      .catch(error => {
+        console.error(
+          "Service Worker gagal:",
+          error
+        );
+      });
+
+  }
+
+  // APPLICATION READY
   console.log("ZeConnec berhasil dijalankan.");
 
 });
