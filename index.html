@@ -4,20 +4,192 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="ZeConnec - Modern Communication Platform">
 
   <title>ZeConnec</title>
 
   <link rel="stylesheet" href="./CSS/style.css">
+  <link rel="manifest" href="./manifest.json">
+
+  <script src="./JS/app.js" defer></script>
 </head>
+
 <body>
 
-  <main class="container">
-    <section class="welcome">
-      <h1>ZeConnec</h1>
-      <p>Connect Without Limits.</p>
-    </section>
-  </main>
+  <div class="app-container">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+      <div class="brand">
+        <div class="brand-icon">Z</div>
+        <div>
+          <h1>ZeConnec</h1>
+          <span>Connect Without Limits.</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="themeBtn" aria-label="Ganti tema">
+          ◐
+        </button>
+
+        <button class="profile-button" aria-label="Profil">
+          F
+        </button>
+      </div>
+
+    </header>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+
+        <button class="new-chat-btn" id="newChatBtn">
+          <span>＋</span>
+          Pesan baru
+        </button>
+
+        <nav class="side-nav">
+
+          <button class="nav-item active" data-page="chats">
+            <span>▤</span>
+            Chat
+          </button>
+
+          <button class="nav-item" data-page="contacts">
+            <span>♙</span>
+            Kontak
+          </button>
+
+          <button class="nav-item" data-page="calls">
+            <span>☎</span>
+            Panggilan
+          </button>
+
+          <button class="nav-item" data-page="profile">
+            <span>◎</span>
+            Profil
+          </button>
+
+        </nav>
+
+      </aside>
+
+      <!-- CONTENT -->
+      <section class="content-area">
+
+        <div class="page-header">
+          <div>
+            <h2 id="pageTitle">Chat</h2>
+            <p id="pageSubtitle">
+              Semua percakapanmu ada di sini.
+            </p>
+          </div>
+
+          <button class="search-btn" id="searchBtn" aria-label="Cari">
+            ⌕
+          </button>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-box" id="searchBox" hidden>
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Cari percakapan..."
+          >
+        </div>
+
+        <!-- CHAT PAGE -->
+        <section class="page active" id="chats">
+
+          <div class="empty-state">
+
+            <div class="empty-icon">✉</div>
+
+            <h3>Belum ada percakapan</h3>
+
+            <p>
+              Mulai percakapan baru dan hubungkan
+              dirimu dengan teman-temanmu.
+            </p>
+
+            <button class="primary-btn" id="startChatBtn">
+              Mulai Chat
+            </button>
+
+          </div>
+
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section class="page" id="contacts">
+
+          <div class="empty-state">
+            <div class="empty-icon">♙</div>
+            <h3>Kontak</h3>
+            <p>Daftar temanmu akan muncul di sini.</p>
+          </div>
+
+        </section>
+
+        <!-- CALL PAGE -->
+        <section class="page" id="calls">
+
+          <div class="empty-state">
+            <div class="empty-icon">☎</div>
+            <h3>Riwayat Panggilan</h3>
+            <p>Riwayat voice call dan video call akan muncul di sini.</p>
+          </div>
+
+        </section>
+
+        <!-- PROFILE PAGE -->
+        <section class="page" id="profile">
+
+          <div class="empty-state">
+            <div class="empty-icon">◎</div>
+            <h3>Profil Pengguna</h3>
+            <p>Informasi akun akan ditampilkan di sini.</p>
+          </div>
+
+        </section>
+
+      </section>
+
+    </main>
+
+    <!-- MOBILE NAVIGATION -->
+    <nav class="mobile-nav">
+
+      <button class="mobile-nav-item active" data-page="chats">
+        <span>▤</span>
+        Chat
+      </button>
+
+      <button class="mobile-nav-item" data-page="contacts">
+        <span>♙</span>
+        Kontak
+      </button>
+
+      <button class="mobile-nav-item" data-page="calls">
+        <span>☎</span>
+        Panggilan
+      </button>
+
+      <button class="mobile-nav-item" data-page="profile">
+        <span>◎</span>
+        Profil
+      </button>
+
+    </nav>
+
+  </div>
 
 </body>
 </html>
