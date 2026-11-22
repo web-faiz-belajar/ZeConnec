@@ -303,6 +303,32 @@
     </div>
   </div>
 </div>
+
+        <!-- STATUS MEDIA PREVIEW -->
+<div class="status-modal" id="statusPreviewModal" hidden>
+  <div class="status-modal-content">
+    <div class="status-modal-header">
+      <h3>Pratinjau Status</h3>
+      <button id="closeStatusPreview" aria-label="Tutup">×</button>
+    </div>
+
+    <div class="status-media-preview">
+      <img id="statusImagePreview" alt="Pratinjau foto" hidden>
+      <video id="statusVideoPreview" controls playsinline hidden></video>
+    </div>
+
+    <textarea
+      id="statusMediaCaption"
+      placeholder="Tambahkan keterangan..."
+      maxlength="200"
+      rows="2"
+    ></textarea>
+
+    <button class="primary-btn" id="publishMediaStatus">
+      Bagikan Status
+    </button>
+  </div>
+</div>
         <!-- CONTACT PAGE -->
         <section class="page" id="contacts">
 
