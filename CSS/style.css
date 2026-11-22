@@ -787,3 +787,80 @@ svg {
     width: 215px;
   }
 }
+/* CREATE STATUS MODAL */
+.status-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+}
+
+.status-modal[hidden] {
+  display: none;
+}
+
+.status-modal-content {
+  width: 100%;
+  max-width: 360px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.status-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.status-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.status-modal-header button {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 27px;
+  cursor: pointer;
+}
+
+.status-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px;
+  margin-top: 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.status-option:active {
+  background: var(--hover);
+}
+
+.status-option span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--hover);
+  font-size: 18px;
+}
