@@ -906,3 +906,59 @@ svg {
   font-weight: 600;
   cursor: pointer;
 }
+
+/* STATUS MEDIA PREVIEW */
+.status-media-preview {
+  width: 100%;
+  min-height: 180px;
+  max-height: 420px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #111;
+}
+
+.status-media-preview img,
+.status-media-preview video {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+}
+
+.status-media-preview img[hidden],
+.status-media-preview video[hidden] {
+  display: none;
+}
+
+#statusMediaCaption {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  resize: none;
+  outline: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--background);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
+#statusMediaCaption:focus {
+  border-color: var(--primary);
+}
+
+#publishMediaStatus {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
