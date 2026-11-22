@@ -177,6 +177,80 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
+   
+  // MORE MENU
+  const moreMenuBtn = document.getElementById("moreMenuBtn");
+  const moreMenu = document.getElementById("moreMenu");
+
+  const createGroupBtn = document.getElementById("createGroupBtn");
+  const markAllReadBtn = document.getElementById("markAllReadBtn");
+  const appSettingsBtn = document.getElementById("appSettingsBtn");
+
+  function closeMoreMenu() {
+    if (!moreMenu || !moreMenuBtn) return;
+
+    moreMenu.hidden = true;
+    moreMenuBtn.setAttribute("aria-expanded", "false");
+  }
+
+  if (moreMenuBtn && moreMenu) {
+    moreMenuBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+
+      moreMenu.hidden = !moreMenu.hidden;
+
+      moreMenuBtn.setAttribute(
+        "aria-expanded",
+        String(!moreMenu.hidden)
+      );
+    });
+
+    moreMenu.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+
+    document.addEventListener("click", closeMoreMenu);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMoreMenu();
+      }
+    });
+  }
+
+  // CREATE GROUP
+  if (createGroupBtn) {
+    createGroupBtn.addEventListener("click", () => {
+      closeMoreMenu();
+
+      alert(
+        "Fitur buat grup akan diaktifkan setelah sistem akun dan Supabase terhubung."
+      );
+    });
+  }
+
+  // MARK ALL AS READ
+  if (markAllReadBtn) {
+    markAllReadBtn.addEventListener("click", () => {
+      closeMoreMenu();
+
+      alert(
+        "Belum ada percakapan yang bisa ditandai sudah dibaca."
+      );
+    });
+  }
+
+  // APP SETTINGS
+  if (appSettingsBtn) {
+    appSettingsBtn.addEventListener("click", () => {
+      closeMoreMenu();
+
+      alert(
+        "Halaman pengaturan aplikasi akan segera dibuat."
+      );
+    });
+  }
+
   // SERVICE WORKER
   if ("serviceWorker" in navigator) {
 
