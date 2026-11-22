@@ -247,6 +247,39 @@
           </div>
         </section>
 
+        
+<!-- CREATE STATUS MODAL -->
+<div class="status-modal" id="statusModal" hidden>
+
+  <div class="status-modal-content">
+
+    <div class="status-modal-header">
+      <h3>Buat Status</h3>
+      <button id="closeStatusModal" aria-label="Tutup">×</button>
+    </div>
+
+    <button class="status-option" id="textStatusBtn">
+      <span> T </span>
+      Status teks
+    </button>
+
+    <button class="status-option" id="photoStatusBtn">
+      <span>▧</span>
+      Foto
+    </button>
+
+    <button class="status-option" id="videoStatusBtn">
+      <span>▷</span>
+      Video
+    </button>
+
+    <input type="file" id="statusPhotoInput" accept="image/*" hidden>
+    <input type="file" id="statusVideoInput" accept="video/*" hidden>
+
+  </div>
+
+</div>
+
         <!-- CONTACT PAGE -->
         <section class="page" id="contacts">
 
