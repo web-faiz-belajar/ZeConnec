@@ -553,3 +553,66 @@ svg {
     transition-duration: .01ms !important;
   }
 }
+
+
+/* =========================
+   LOADING SCREEN
+========================= */
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: #000;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.loading-screen.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-art {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  animation: loadingRotate 3s linear infinite;
+}
+
+.loading-art span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 24px;
+  border-radius: 10px;
+  background: #fff;
+  transform-origin: center 40px;
+  animation: loadingPulse 1s ease-in-out infinite;
+}
+
+.loading-art span:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-28px); }
+.loading-art span:nth-child(2) { transform: translate(-50%, -50%) rotate(40deg) translateY(-28px); animation-delay: .1s; }
+.loading-art span:nth-child(3) { transform: translate(-50%, -50%) rotate(80deg) translateY(-28px); animation-delay: .2s; }
+.loading-art span:nth-child(4) { transform: translate(-50%, -50%) rotate(120deg) translateY(-28px); animation-delay: .3s; }
+.loading-art span:nth-child(5) { transform: translate(-50%, -50%) rotate(160deg) translateY(-28px); animation-delay: .4s; }
+.loading-art span:nth-child(6) { transform: translate(-50%, -50%) rotate(200deg) translateY(-28px); animation-delay: .5s; }
+.loading-art span:nth-child(7) { transform: translate(-50%, -50%) rotate(240deg) translateY(-28px); animation-delay: .6s; }
+.loading-art span:nth-child(8) { transform: translate(-50%, -50%) rotate(280deg) translateY(-28px); animation-delay: .7s; }
+.loading-art span:nth-child(9) { transform: translate(-50%, -50%) rotate(320deg) translateY(-28px); animation-delay: .8s; }
+
+@keyframes loadingRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loadingPulse {
+  0%, 100% { opacity: .25; }
+  50% { opacity: 1; }
+}
