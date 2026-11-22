@@ -62,9 +62,42 @@
           </svg>
         </button>
 
-        <button class="profile-button" aria-label="Profil">
-          F
-        </button>
+        
+<div class="menu-wrapper">
+
+  <button
+    class="icon-btn"
+    id="moreMenuBtn"
+    aria-label="Menu lainnya"
+    aria-expanded="false"
+  >
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="5" r="1.5" fill="currentColor"/>
+      <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+      <circle cx="12" cy="19" r="1.5" fill="currentColor"/>
+    </svg>
+  </button>
+
+  <div class="more-menu" id="moreMenu" hidden>
+
+    <button type="button" id="createGroupBtn">
+      <span>＋</span>
+      Buat grup baru
+    </button>
+
+    <button type="button" id="markAllReadBtn">
+      <span>✓</span>
+      Baca semua
+    </button>
+
+    <button type="button" id="appSettingsBtn">
+      <span>⚙</span>
+      Pengaturan aplikasi
+    </button>
+
+  </div>
+
+</div>
 
       </div>
     </header>
