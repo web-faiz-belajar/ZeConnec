@@ -246,7 +246,6 @@
 
           </div>
         </section>
-
         
 <!-- CREATE STATUS MODAL -->
 <div class="status-modal" id="statusModal" hidden>
@@ -327,6 +326,35 @@
     <button class="primary-btn" id="publishMediaStatus">
       Bagikan Status
     </button>
+  </div>
+</div>
+
+        <!-- STATUS VIEWER -->
+<div class="status-viewer" id="statusViewer" hidden>
+  <div class="status-viewer-content">
+
+    <div class="status-viewer-header">
+      <div class="status-viewer-user">
+        <div class="status-viewer-avatar">F</div>
+        <div>
+          <strong id="viewerUsername">Nama teman</strong>
+          <small id="viewerTime">Baru saja</small>
+        </div>
+      </div>
+
+      <button id="closeStatusViewer" aria-label="Tutup">×</button>
+    </div>
+
+    <div class="status-viewer-media">
+      <p id="viewerText">Status teman akan ditampilkan di sini.</p>
+      <img id="viewerImage" alt="Status foto" hidden>
+      <video id="viewerVideo" controls playsinline hidden></video>
+    </div>
+
+    <div class="status-viewer-footer">
+      <span>ZeConnec Status</span>
+    </div>
+
   </div>
 </div>
         <!-- CONTACT PAGE -->
