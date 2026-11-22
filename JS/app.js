@@ -4,6 +4,14 @@
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+     // LOADING SCREEN
+  const loadingScreen = document.getElementById("loadingScreen");
+
+  if (loadingScreen) {
+    setTimeout(() => {
+      loadingScreen.classList.add("hide");
+    }, 1500);
+  }
 
   // ELEMENTS
   const themeBtn = document.getElementById("themeBtn");
