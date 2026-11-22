@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "zeconnec-v3";
+const CACHE_NAME = "zeconnec-v4";
 
 const APP_FILES = [
   "./",
