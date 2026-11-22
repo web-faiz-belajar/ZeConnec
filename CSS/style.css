@@ -962,3 +962,108 @@ svg {
   font-weight: 600;
   cursor: pointer;
 }
+/* STATUS VIEWER */
+.status-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.92);
+}
+
+.status-viewer[hidden] {
+  display: none;
+}
+
+.status-viewer-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 430px;
+  height: min(90vh, 760px);
+  overflow: hidden;
+  border-radius: 18px;
+  background: #111;
+  color: #fff;
+}
+
+.status-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.status-viewer-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-viewer-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.status-viewer-user strong,
+.status-viewer-user small {
+  display: block;
+}
+
+.status-viewer-user small {
+  margin-top: 4px;
+  color: #aaa;
+}
+
+#closeStatusViewer {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.status-viewer-media {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.status-viewer-media p {
+  max-width: 90%;
+  font-size: 23px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.status-viewer-media img,
+.status-viewer-media video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.status-viewer-media img[hidden],
+.status-viewer-media video[hidden] {
+  display: none;
+}
+
+.status-viewer-footer {
+  padding: 14px;
+  color: #aaa;
+  font-size: 12px;
+  text-align: center;
+}
