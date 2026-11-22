@@ -316,6 +316,51 @@ if (statusVideoInput) {
     }
   });
 }
+
+   // TEXT STATUS EDITOR
+const textStatusModal = document.getElementById("textStatusModal");
+const closeTextStatus = document.getElementById("closeTextStatus");
+const textStatusContent = document.getElementById("textStatusContent");
+const statusCharCount = document.getElementById("statusCharCount");
+const publishTextStatus = document.getElementById("publishTextStatus");
+
+if (textStatusBtn && textStatusModal) {
+  textStatusBtn.addEventListener("click", () => {
+    statusModal.hidden = true;
+    textStatusModal.hidden = false;
+    textStatusContent.focus();
+  });
+}
+
+if (closeTextStatus) {
+  closeTextStatus.addEventListener("click", () => {
+    textStatusModal.hidden = true;
+  });
+}
+
+if (textStatusContent && statusCharCount) {
+  textStatusContent.addEventListener("input", () => {
+    statusCharCount.textContent =
+      `${textStatusContent.value.length}/500`;
+  });
+}
+
+if (publishTextStatus) {
+  publishTextStatus.addEventListener("click", () => {
+    const content = textStatusContent.value.trim();
+
+    if (!content) {
+      alert("Tulis sesuatu terlebih dahulu.");
+      return;
+    }
+
+    alert("Status teks berhasil dibuat sebagai konsep lokal. Publikasi ke teman memerlukan koneksi Supabase.");
+
+    textStatusContent.value = "";
+    statusCharCount.textContent = "0/500";
+    textStatusModal.hidden = true;
+  });
+}
   // SERVICE WORKER
   if ("serviceWorker" in navigator) {
 
