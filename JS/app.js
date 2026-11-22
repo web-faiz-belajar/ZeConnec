@@ -251,6 +251,71 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+   // STATUS MODAL
+const myStatusBtn = document.getElementById("myStatusBtn");
+const statusModal = document.getElementById("statusModal");
+const closeStatusModal = document.getElementById("closeStatusModal");
+
+const textStatusBtn = document.getElementById("textStatusBtn");
+const photoStatusBtn = document.getElementById("photoStatusBtn");
+const videoStatusBtn = document.getElementById("videoStatusBtn");
+
+const statusPhotoInput = document.getElementById("statusPhotoInput");
+const statusVideoInput = document.getElementById("statusVideoInput");
+
+if (myStatusBtn && statusModal) {
+  myStatusBtn.addEventListener("click", () => {
+    statusModal.hidden = false;
+  });
+}
+
+if (closeStatusModal) {
+  closeStatusModal.addEventListener("click", () => {
+    statusModal.hidden = true;
+  });
+}
+
+if (statusModal) {
+  statusModal.addEventListener("click", (event) => {
+    if (event.target === statusModal) {
+      statusModal.hidden = true;
+    }
+  });
+}
+
+if (textStatusBtn) {
+  textStatusBtn.addEventListener("click", () => {
+    alert("Fitur status teks akan dibuat pada langkah berikutnya.");
+  });
+}
+
+if (photoStatusBtn && statusPhotoInput) {
+  photoStatusBtn.addEventListener("click", () => {
+    statusPhotoInput.click();
+  });
+}
+
+if (videoStatusBtn && statusVideoInput) {
+  videoStatusBtn.addEventListener("click", () => {
+    statusVideoInput.click();
+  });
+}
+
+if (statusPhotoInput) {
+  statusPhotoInput.addEventListener("change", () => {
+    if (statusPhotoInput.files.length > 0) {
+      alert("Foto berhasil dipilih. Fitur publikasi status akan dibuat berikutnya.");
+    }
+  });
+}
+
+if (statusVideoInput) {
+  statusVideoInput.addEventListener("change", () => {
+    if (statusVideoInput.files.length > 0) {
+      alert("Video berhasil dipilih. Fitur publikasi status akan dibuat berikutnya.");
+    }
+  });
+}
   // SERVICE WORKER
   if ("serviceWorker" in navigator) {
 
