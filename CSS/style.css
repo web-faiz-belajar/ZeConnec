@@ -1067,3 +1067,137 @@ svg {
   font-size: 12px;
   text-align: center;
 }
+
+/* =========================
+   ZECONNEC - LAYOUT UPDATE
+========================= */
+
+/* PAGE LAYOUT */
+.page {
+  width: 100%;
+  min-width: 0;
+}
+
+.page.active {
+  display: block;
+}
+
+#status {
+  padding-top: 5px;
+}
+
+#status .status-section {
+  padding-top: 15px;
+}
+
+/* SEARCH */
+.search-box {
+  width: 100%;
+}
+
+.search-box input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+/* STATUS */
+.status-section {
+  width: 100%;
+  min-width: 0;
+}
+
+.status-list {
+  width: 100%;
+  scrollbar-width: none;
+}
+
+.status-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* MODAL RESPONSIVE */
+.status-modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.status-media-preview {
+  min-height: 180px;
+}
+
+.status-media-preview img,
+.status-media-preview video {
+  max-width: 100%;
+  max-height: 55vh;
+}
+
+.status-viewer-content {
+  max-height: 90dvh;
+}
+
+/* MOBILE NAVIGATION - 5 MENU */
+@media (max-width: 700px) {
+
+  .content-area {
+    width: 100%;
+    padding: 25px 18px 120px;
+  }
+
+  .mobile-nav {
+    width: calc(100% - 24px);
+    max-width: 480px;
+    height: 72px;
+    padding: 6px;
+    gap: 2px;
+  }
+
+  .mobile-nav-item {
+    flex: 1;
+    min-width: 0;
+    padding: 0 3px;
+    gap: 5px;
+  }
+
+  .mobile-nav-item .nav-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mobile-nav-item.active {
+    flex: 1.5;
+    padding: 0 7px;
+  }
+
+  .mobile-nav-item.active .nav-label {
+    font-size: 11px;
+  }
+
+  .status-heading {
+    align-items: center;
+  }
+
+  .status-empty {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 360px) {
+
+  .mobile-nav {
+    width: calc(100% - 16px);
+  }
+
+  .mobile-nav-item.active {
+    flex: 1.35;
+  }
+
+  .mobile-nav-item .nav-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .mobile-nav-item.active .nav-label {
+    font-size: 10px;
+  }
+}
