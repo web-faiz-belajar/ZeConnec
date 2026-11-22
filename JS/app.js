@@ -300,20 +300,80 @@ if (videoStatusBtn && statusVideoInput) {
     statusVideoInput.click();
   });
 }
+// STATUS MEDIA PREVIEW
+const statusPreviewModal = document.getElementById("statusPreviewModal");
+const closeStatusPreview = document.getElementById("closeStatusPreview");
+const statusImagePreview = document.getElementById("statusImagePreview");
+const statusVideoPreview = document.getElementById("statusVideoPreview");
+const statusMediaCaption = document.getElementById("statusMediaCaption");
+const publishMediaStatus = document.getElementById("publishMediaStatus");
+
+let statusMediaURL = null;
+
+function showStatusPreview(file, type) {
+  if (!file || !statusPreviewModal) return;
+
+  if (statusMediaURL) {
+    URL.revokeObjectURL(statusMediaURL);
+  }
+
+  statusMediaURL = URL.createObjectURL(file);
+
+  statusImagePreview.hidden = true;
+  statusVideoPreview.hidden = true;
+  statusVideoPreview.pause();
+
+  if (type === "image") {
+    statusImagePreview.src = statusMediaURL;
+    statusImagePreview.hidden = false;
+  } else {
+    statusVideoPreview.src = statusMediaURL;
+    statusVideoPreview.hidden = false;
+  }
+
+  statusMediaCaption.value = "";
+  statusModal.hidden = true;
+  statusPreviewModal.hidden = false;
+}
 
 if (statusPhotoInput) {
   statusPhotoInput.addEventListener("change", () => {
-    if (statusPhotoInput.files.length > 0) {
-      alert("Foto berhasil dipilih. Fitur publikasi status akan dibuat berikutnya.");
-    }
+    const file = statusPhotoInput.files[0];
+    if (file) showStatusPreview(file, "image");
   });
 }
 
 if (statusVideoInput) {
   statusVideoInput.addEventListener("change", () => {
-    if (statusVideoInput.files.length > 0) {
-      alert("Video berhasil dipilih. Fitur publikasi status akan dibuat berikutnya.");
-    }
+    const file = statusVideoInput.files[0];
+    if (file) showStatusPreview(file, "video");
+  });
+}
+
+function closeMediaPreview() {
+  statusPreviewModal.hidden = true;
+  statusVideoPreview.pause();
+
+  statusImagePreview.src = "";
+  statusVideoPreview.src = "";
+
+  if (statusMediaURL) {
+    URL.revokeObjectURL(statusMediaURL);
+    statusMediaURL = null;
+  }
+
+  statusPhotoInput.value = "";
+  statusVideoInput.value = "";
+}
+
+if (closeStatusPreview) {
+  closeStatusPreview.addEventListener("click", closeMediaPreview);
+}
+
+if (publishMediaStatus) {
+  publishMediaStatus.addEventListener("click", () => {
+    alert("Pratinjau status berhasil. Publikasi ke teman akan diaktifkan setelah Supabase terhubung.");
+    closeMediaPreview();
   });
 }
 
