@@ -13,7 +13,6 @@
 
   <link rel="icon" type="image/png" href="./assets/icons/favicon-64.png">
   <link rel="manifest" href="./manifest.json">
-
   <link rel="stylesheet" href="./CSS/style.css">
 
   <script src="./JS/app.js" defer></script>
@@ -32,6 +31,7 @@
           src="./assets/icons/icon-192.png"
           alt="Logo ZeConnec"
         >
+
         <div>
           <h1>ZeConnec</h1>
           <span>Connect Without Limits.</span>
@@ -39,15 +39,19 @@
       </div>
 
       <div class="header-actions">
+
         <button class="icon-btn" id="themeBtn" aria-label="Ganti tema">
-          ◐
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 3a9 9 0 0 0 0 18z"/>
+          </svg>
         </button>
 
         <button class="profile-button" aria-label="Profil">
           F
         </button>
-      </div>
 
+      </div>
     </header>
 
     <!-- MAIN -->
@@ -57,40 +61,60 @@
       <aside class="sidebar">
 
         <button class="new-chat-btn" id="newChatBtn">
-          <span>＋</span>
+          <span class="button-icon">＋</span>
           Pesan baru
         </button>
 
         <nav class="side-nav">
 
           <button class="nav-item active" data-page="chats">
-            <span>▤</span>
-            Chat
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2v-9.5A7.5 7.5 0 0 1 10.5 4h2A7.5 7.5 0 0 1 20 11.5Z"/>
+                <path d="M8 10h8M8 14h5"/>
+              </svg>
+            </span>
+            <span class="nav-label">Chat</span>
           </button>
 
           <button class="nav-item" data-page="contacts">
-            <span>♙</span>
-            Kontak
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 21a8 8 0 0 1 16 0"/>
+              </svg>
+            </span>
+            <span class="nav-label">Kontak</span>
           </button>
 
           <button class="nav-item" data-page="calls">
-            <span>☎</span>
-            Panggilan
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 3h3l2 5-3 2a15 15 0 0 0 5 5l2-3 5 2v3a3 3 0 0 1-3 3A15 15 0 0 1 4 6a3 3 0 0 1 3-3Z"/>
+              </svg>
+            </span>
+            <span class="nav-label">Panggilan</span>
           </button>
 
           <button class="nav-item" data-page="profile">
-            <span>◎</span>
-            Profil
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"/>
+                <circle cx="12" cy="9" r="3"/>
+                <path d="M6.5 19a6 6 0 0 1 11 0"/>
+              </svg>
+            </span>
+            <span class="nav-label">Profil</span>
           </button>
 
         </nav>
-
       </aside>
 
       <!-- CONTENT -->
       <section class="content-area">
 
         <div class="page-header">
+
           <div>
             <h2 id="pageTitle">Chat</h2>
             <p id="pageSubtitle">
@@ -99,8 +123,12 @@
           </div>
 
           <button class="search-btn" id="searchBtn" aria-label="Cari">
-            ⌕
+            <svg viewBox="0 0 24 24">
+              <circle cx="10.8" cy="10.8" r="7"/>
+              <path d="m16 16 5 5"/>
+            </svg>
           </button>
+
         </div>
 
         <!-- SEARCH -->
@@ -117,7 +145,12 @@
 
           <div class="empty-state">
 
-            <div class="empty-icon">✉</div>
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="16" rx="4"/>
+                <path d="m4 7 8 6 8-6"/>
+              </svg>
+            </div>
 
             <h3>Belum ada percakapan</h3>
 
@@ -127,71 +160,111 @@
             </p>
 
             <button class="primary-btn" id="startChatBtn">
+              <span>＋</span>
               Mulai Chat
             </button>
 
           </div>
-
         </section>
 
         <!-- CONTACT PAGE -->
         <section class="page" id="contacts">
 
           <div class="empty-state">
-            <div class="empty-icon">♙</div>
+
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 21a8 8 0 0 1 16 0"/>
+              </svg>
+            </div>
+
             <h3>Kontak</h3>
             <p>Daftar temanmu akan muncul di sini.</p>
-          </div>
 
+          </div>
         </section>
 
         <!-- CALL PAGE -->
         <section class="page" id="calls">
 
           <div class="empty-state">
-            <div class="empty-icon">☎</div>
+
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 3h3l2 5-3 2a15 15 0 0 0 5 5l2-3 5 2v3a3 3 0 0 1-3 3A15 15 0 0 1 4 6a3 3 0 0 1 3-3Z"/>
+              </svg>
+            </div>
+
             <h3>Riwayat Panggilan</h3>
             <p>Riwayat voice call dan video call akan muncul di sini.</p>
-          </div>
 
+          </div>
         </section>
 
         <!-- PROFILE PAGE -->
         <section class="page" id="profile">
 
           <div class="empty-state">
-            <div class="empty-icon">◎</div>
+
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"/>
+                <circle cx="12" cy="9" r="3"/>
+                <path d="M6.5 19a6 6 0 0 1 11 0"/>
+              </svg>
+            </div>
+
             <h3>Profil Pengguna</h3>
             <p>Informasi akun akan ditampilkan di sini.</p>
-          </div>
 
+          </div>
         </section>
 
       </section>
-
     </main>
 
     <!-- MOBILE NAVIGATION -->
-    <nav class="mobile-nav">
+    <nav class="mobile-nav" aria-label="Navigasi utama">
 
       <button class="mobile-nav-item active" data-page="chats">
-        <span>▤</span>
-        Chat
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2v-9.5A7.5 7.5 0 0 1 10.5 4h2A7.5 7.5 0 0 1 20 11.5Z"/>
+            <path d="M8 10h8M8 14h5"/>
+          </svg>
+        </span>
+        <span class="nav-label">Chat</span>
       </button>
 
       <button class="mobile-nav-item" data-page="contacts">
-        <span>♙</span>
-        Kontak
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 21a8 8 0 0 1 16 0"/>
+          </svg>
+        </span>
+        <span class="nav-label">Kontak</span>
       </button>
 
       <button class="mobile-nav-item" data-page="calls">
-        <span>☎</span>
-        Panggilan
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M7 3h3l2 5-3 2a15 15 0 0 0 5 5l2-3 5 2v3a3 3 0 0 1-3 3A15 15 0 0 1 4 6a3 3 0 0 1 3-3Z"/>
+          </svg>
+        </span>
+        <span class="nav-label">Panggilan</span>
       </button>
 
       <button class="mobile-nav-item" data-page="profile">
-        <span>◎</span>
-        Profil
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="9" r="3"/>
+            <path d="M6.5 19a6 6 0 0 1 11 0"/>
+          </svg>
+        </span>
+        <span class="nav-label">Profil</span>
       </button>
 
     </nav>
