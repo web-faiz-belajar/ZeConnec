@@ -421,6 +421,36 @@ if (publishTextStatus) {
     textStatusModal.hidden = true;
   });
 }
+   // STATUS VIEWER
+const statusViewer = document.getElementById("statusViewer");
+const closeStatusViewer = document.getElementById("closeStatusViewer");
+const viewAllStatusBtn = document.getElementById("viewAllStatusBtn");
+
+if (closeStatusViewer && statusViewer) {
+  closeStatusViewer.addEventListener("click", () => {
+    statusViewer.hidden = true;
+  });
+}
+
+if (statusViewer) {
+  statusViewer.addEventListener("click", (event) => {
+    if (event.target === statusViewer) {
+      statusViewer.hidden = true;
+    }
+  });
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && statusViewer) {
+    statusViewer.hidden = true;
+  }
+});
+
+if (viewAllStatusBtn) {
+  viewAllStatusBtn.addEventListener("click", () => {
+    alert("Belum ada status teman. Status teman akan muncul setelah sistem akun dan Supabase terhubung.");
+  });
+}
   // SERVICE WORKER
   if ("serviceWorker" in navigator) {
 
