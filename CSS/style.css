@@ -512,3 +512,111 @@ button {
     border-radius: 0 0 18px 18px;
   }
 }
+
+/* =================================
+   ZeConnec - New Visual Identity
+================================= */
+
+:root {
+  --accent: #d9d9d9;
+  --nav-bg: #111111;
+}
+
+body.light {
+  --accent: #222222;
+  --nav-bg: #ffffff;
+}
+
+/* ORIGINAL LOGO */
+
+.brand-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 9px;
+  display: block;
+}
+
+/* FLOATING NAVIGATION */
+
+.bottom-nav {
+  position: fixed;
+  left: 50%;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: calc(100% - 30px);
+  max-width: 520px;
+  height: 65px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  background: var(--nav-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 3px;
+  box-shadow: 0 5px 25px rgba(0,0,0,.16);
+  backdrop-filter: blur(18px);
+}
+
+.nav-item {
+  flex: 1;
+  min-width: 0;
+  height: 51px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 6px;
+  color: #888888;
+  transition: all .25s ease;
+}
+
+.nav-item span {
+  font-size: 19px;
+}
+
+.nav-item small {
+  display: none;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.nav-item.active {
+  flex: 1.5;
+  background: #f5f5f5;
+  color: #111111;
+}
+
+.nav-item.active small {
+  display: block;
+}
+
+body.light .nav-item.active {
+  background: #171717;
+  color: #ffffff;
+}
+
+.nav-item.active span {
+  transform: none;
+}
+
+/* NEUTRAL BUTTON COLORS */
+
+.page-heading button {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.filter.active {
+  background: var(--surface-3);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.unread-badge {
+  background: var(--surface-3);
+  color: var(--text);
+}
