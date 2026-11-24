@@ -419,4 +419,16 @@ document.addEventListener("DOMContentLoaded", () => {
   renderStatuses();
   renderProfile();
 
+  /* SERVICE WORKER */
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js")
+        .then(() => console.log("ZeConnec PWA aktif"))
+        .catch(error => console.error("PWA error:", error));
+    });
+  }
+
 });
+
+
