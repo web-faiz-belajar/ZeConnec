@@ -1,563 +1,422 @@
 
-/* ========================================
+/* =====================================
    ZeConnec - Main Application
-======================================== */
+===================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
-  /* ---------- HELPERS ---------- */
-
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => document.querySelectorAll(selector);
 
-  const showMessage = (message) => {
-    alert(message);
+  const STORAGE = {
+    theme: "zeconnec_theme",
+    profile: "zeconnec_profile",
+    chats: "zeconnec_chats",
+    contacts: "zeconnec_contacts",
+    statuses: "zeconnec_statuses"
   };
 
-  const addClick = (selector, callback) => {
-    const element = $(selector);
-
-    if (element) {
-      element.addEventListener("click", callback);
+  function loadData(key, fallback) {
+    try {
+      const data = localStorage.getItem(key);
+      return data ? JSON.parse(data) : fallback;
+    } catch {
+      return fallback;
     }
-  };
-
-  /* ---------- LOADING SCREEN ---------- */
-
-  const loadingScreen = $("#loadingScreen");
-
-  if (loadingScreen) {
-    window.setTimeout(() => {
-      loadingScreen.classList.add("hide");
-    }, 1200);
   }
 
-  /* ---------- PAGE NAVIGATION ---------- */
+  function saveData(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
 
-  const navItems = $$("[data-page]");
-  const pages = $$(".page");
+  let chats = loadData(STORAGE.chats, []);
+  let contacts = loadData(STORAGE.contacts, []);
+  let statuses = loadData(STORAGE.statuses, []);
 
-  const pageInfo = {
-    chats: {
-      title: "Chat",
-      subtitle: "Percakapan kamu"
-    },
-    status: {
-      title: "Status",
-      subtitle: "Bagikan aktivitas terbaru"
-    },
-    contacts: {
-      title: "Kontak",
-      subtitle: "Daftar kontak kamu"
-    },
-    calls: {
-      title: "Panggilan",
-      subtitle: "Riwayat panggilan"
-    },
-    profile: {
-      title: "Profil",
-      subtitle: "Informasi akun kamu"
-    }
-  };
+  let profile = loadData(STORAGE.profile, {
+    name: "Pengguna ZeConnec",
+    about: "Hai! Saya menggunakan ZeConnec."
+  });
 
-  function openPage(pageName) {
-    if (!pageInfo[pageName]) return;
+  let currentFilter = "all";
 
-    pages.forEach((page) => {
-      page.classList.toggle(
-        "active",
-        page.id === pageName
+  /* THEME */
+
+  function setTheme(theme) {
+    document.body.classList.toggle("light", theme === "light");
+    localStorage.setItem(STORAGE.theme, theme);
+  }
+
+  const savedTheme = localStorage.getItem(STORAGE.theme) || "dark";
+  setTheme(savedTheme);
+
+  $("#themeBtn")?.addEventListener("click", () => {
+    const nextTheme = document.body.classList.contains("light")
+      ? "dark"
+      : "light";
+
+    setTheme(nextTheme);
+  });
+
+  $("#profileThemeBtn")?.addEventListener("click", () => {
+    const nextTheme = document.body.classList.contains("light")
+      ? "dark"
+      : "light";
+
+    setTheme(nextTheme);
+  });
+
+  /* NAVIGATION */
+
+  $$(".nav-item").forEach(button => {
+    button.addEventListener("click", () => {
+      const pageId = button.dataset.page;
+      const target = document.getElementById(pageId);
+
+      if (!target) return;
+
+      $$(".nav-item").forEach(item =>
+        item.classList.remove("active")
       );
-    });
 
-    navItems.forEach((item) => {
-      item.classList.toggle(
-        "active",
-        item.dataset.page === pageName
+      $$(".page").forEach(page =>
+        page.classList.remove("active")
       );
-    });
 
-    const title = $("#pageTitle");
-    const subtitle = $("#pageSubtitle");
-
-    if (title) {
-      title.textContent = pageInfo[pageName].title;
-    }
-
-    if (subtitle) {
-      subtitle.textContent = pageInfo[pageName].subtitle;
-    }
-
-    const searchBox = $("#searchBox");
-
-    if (searchBox) {
-      searchBox.hidden = true;
-    }
-
-    const moreMenu = $("#moreMenu");
-
-    if (moreMenu) {
-      moreMenu.hidden = true;
-    }
-  }
-
-  navItems.forEach((item) => {
-    item.addEventListener("click", () => {
-      openPage(item.dataset.page);
+      button.classList.add("active");
+      target.classList.add("active");
     });
   });
 
-  /* ---------- THEME ---------- */
+  /* CHAT RENDER */
 
-  const themeBtn = $("#themeBtn");
-  const savedTheme = localStorage.getItem("zeconnec_theme");
+  function renderChats() {
+    const list = $("#chatList");
+    if (!list) return;
 
-  function applyTheme(theme) {
-    document.body.classList.toggle(
-      "dark",
-      theme === "dark"
+    let filtered = chats.filter(chat => {
+      if (currentFilter === "unread") return chat.unread > 0;
+      if (currentFilter === "groups") return chat.type === "group";
+      return true;
+    });
+
+    const search = ($("#chatSearch")?.value || "").toLowerCase();
+
+    filtered = filtered.filter(chat =>
+      chat.name.toLowerCase().includes(search)
     );
 
-    localStorage.setItem("zeconnec_theme", theme);
-
-    if (themeBtn) {
-      themeBtn.textContent =
-        theme === "dark" ? "☀" : "☾";
-
-      themeBtn.setAttribute(
-        "aria-label",
-        theme === "dark"
-          ? "Aktifkan tema terang"
-          : "Aktifkan tema gelap"
-      );
-    }
-  }
-
-  applyTheme(savedTheme === "dark" ? "dark" : "light");
-
-  addClick("#themeBtn", () => {
-    const isDark = document.body.classList.contains("dark");
-
-    applyTheme(isDark ? "light" : "dark");
-  });
-
-  /* ---------- SEARCH ---------- */
-
-  const searchBtn = $("#searchBtn");
-  const searchBox = $("#searchBox");
-  const searchInput = $("#searchInput");
-
-  if (searchBtn && searchBox) {
-    searchBtn.addEventListener("click", () => {
-      searchBox.hidden = !searchBox.hidden;
-
-      if (!searchBox.hidden && searchInput) {
-        searchInput.focus();
-      }
-    });
-  }
-
-  if (searchInput) {
-    searchInput.addEventListener("input", () => {
-      document.dispatchEvent(
-        new CustomEvent("zeconnec:search", {
-          detail: {
-            query: searchInput.value.trim().toLowerCase()
-          }
-        })
-      );
-    });
-  }
-
-  /* ---------- NEW CHAT ---------- */
-
-  addClick("#startChatBtn", () => {
-    openPage("contacts");
-
-    showMessage(
-      "Fitur chat dengan pengguna lain akan aktif setelah backend ZeConnec terhubung."
-    );
-  });
-
-  addClick("#createGroupBtn", () => {
-    const menu = $("#moreMenu");
-
-    if (menu) {
-      menu.hidden = true;
-    }
-
-    showMessage(
-      "Pembuatan grup akan diaktifkan setelah backend ZeConnec tersedia."
-    );
-  });
-
-  /* ---------- MORE MENU ---------- */
-
-  const moreMenuBtn = $("#moreMenuBtn");
-  const moreMenu = $("#moreMenu");
-
-  if (moreMenuBtn && moreMenu) {
-    moreMenuBtn.addEventListener("click", (event) => {
-      event.stopPropagation();
-      moreMenu.hidden = !moreMenu.hidden;
-    });
-
-    moreMenu.addEventListener("click", (event) => {
-      event.stopPropagation();
-    });
-
-    document.addEventListener("click", () => {
-      moreMenu.hidden = true;
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        moreMenu.hidden = true;
-      }
-    });
-  }
-
-  addClick("#markAllReadBtn", () => {
-    showMessage(
-      "Fitur tandai semua pesan sudah dibaca akan tersedia setelah sistem chat aktif."
-    );
-
-    if (moreMenu) {
-      moreMenu.hidden = true;
-    }
-  });
-
-  addClick("#appSettingsBtn", () => {
-    showMessage(
-      "Pengaturan lengkap ZeConnec sedang disiapkan."
-    );
-
-    if (moreMenu) {
-      moreMenu.hidden = true;
-    }
-  });
-
-  /* ---------- STATUS MODAL ---------- */
-
-  const statusModal = $("#statusModal");
-
-  function openStatusModal() {
-    if (statusModal) {
-      statusModal.hidden = false;
-    }
-  }
-
-  function closeStatusModal() {
-    if (statusModal) {
-      statusModal.hidden = true;
-    }
-  }
-
-  addClick("#myStatusBtn", openStatusModal);
-  addClick("#closeStatusModal", closeStatusModal);
-
-  if (statusModal) {
-    statusModal.addEventListener("click", (event) => {
-      if (event.target === statusModal) {
-        closeStatusModal();
-      }
-    });
-  }
-
-  /* ---------- TEXT STATUS ---------- */
-
-  const textStatusModal = $("#textStatusModal");
-  const textStatusInput = $("#textStatusInput");
-  const textStatusCounter = $("#textStatusCounter");
-
-  addClick("#textStatusBtn", () => {
-    closeStatusModal();
-
-    if (textStatusModal) {
-      textStatusModal.hidden = false;
-    }
-  });
-
-  addClick("#closeTextStatus", () => {
-    if (textStatusModal) {
-      textStatusModal.hidden = true;
-    }
-  });
-
-  if (textStatusInput && textStatusCounter) {
-    textStatusInput.addEventListener("input", () => {
-      textStatusCounter.textContent =
-        `${textStatusInput.value.length}/500`;
-    });
-  }
-
-  addClick("#publishTextStatus", () => {
-    if (!textStatusInput) return;
-
-    const text = textStatusInput.value.trim();
-
-    if (!text) {
-      showMessage("Tulis status terlebih dahulu.");
+    if (!filtered.length) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">☏</div>
+          <h3>Belum ada percakapan</h3>
+          <p>Tambahkan kontak untuk memulai.</p>
+        </div>
+      `;
       return;
     }
 
-    if (text.length > 500) {
-      showMessage("Status maksimal 500 karakter.");
+    list.innerHTML = filtered.map(chat => `
+      <div class="chat-item" data-id="${chat.id}">
+        <div class="avatar">${escapeHTML(chat.name.charAt(0).toUpperCase())}</div>
+
+        <div class="chat-info">
+          <div class="chat-top">
+            <h3>${escapeHTML(chat.name)}</h3>
+            <span class="chat-time">${escapeHTML(chat.time || "")}</span>
+          </div>
+
+          <div class="chat-bottom">
+            <span class="chat-preview">${escapeHTML(chat.lastMessage || "Mulai percakapan")}</span>
+            ${chat.unread > 0
+              ? `<span class="unread-badge">${chat.unread}</span>`
+              : ""}
+          </div>
+        </div>
+      </div>
+    `).join("");
+
+    $$(".chat-item").forEach(item => {
+      item.addEventListener("click", () => {
+        openChat(item.dataset.id);
+      });
+    });
+  }
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    })[char]);
+  }
+
+  /* CHAT WINDOW */
+
+  function openChat(id) {
+    const chat = chats.find(item => String(item.id) === String(id));
+    if (!chat) return;
+
+    chat.unread = 0;
+    saveData(STORAGE.chats, chats);
+    renderChats();
+
+    const oldWindow = $("#chatWindow");
+    oldWindow?.remove();
+
+    const windowElement = document.createElement("div");
+    windowElement.id = "chatWindow";
+    windowElement.className = "chat-window";
+
+    windowElement.innerHTML = `
+      <div class="chat-window-header">
+        <button id="backChat">‹</button>
+        <div class="avatar">${escapeHTML(chat.name.charAt(0).toUpperCase())}</div>
+        <div class="chat-window-user">
+          <strong>${escapeHTML(chat.name)}</strong>
+          <small>Chat lokal</small>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="empty-state">
+          <p>Mulai percakapan dengan ${escapeHTML(chat.name)}.</p>
+        </div>
+      </div>
+
+      <form class="chat-composer" id="messageForm">
+        <input id="messageInput" placeholder="Ketik pesan..." autocomplete="off">
+        <button type="submit">➤</button>
+      </form>
+    `;
+
+    document.querySelector(".app").appendChild(windowElement);
+
+    $("#backChat").addEventListener("click", () => {
+      windowElement.remove();
+    });
+
+    const form = $("#messageForm");
+    const input = $("#messageInput");
+    const messages = $("#chatMessages");
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const message = input.value.trim();
+      if (!message) return;
+
+      const empty = messages.querySelector(".empty-state");
+      empty?.remove();
+
+      const bubble = document.createElement("div");
+      bubble.className = "message-bubble";
+      bubble.textContent = message;
+
+      messages.appendChild(bubble);
+      input.value = "";
+
+      chat.lastMessage = message;
+      chat.time = new Date().toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      saveData(STORAGE.chats, chats);
+      renderChats();
+      messages.scrollTop = messages.scrollHeight;
+    });
+  }
+
+  /* FILTER */
+
+  $$(".filter").forEach(button => {
+    button.addEventListener("click", () => {
+      $$(".filter").forEach(item =>
+        item.classList.remove("active")
+      );
+
+      button.classList.add("active");
+      currentFilter = button.dataset.filter;
+      renderChats();
+    });
+  });
+
+  $("#chatSearch")?.addEventListener("input", renderChats);
+
+  /* CONTACTS */
+
+  function renderContacts() {
+    const list = $("#contactList");
+    if (!list) return;
+
+    const search = ($("#contactSearch")?.value || "").toLowerCase();
+
+    const filtered = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(search)
+    );
+
+    if (!filtered.length) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <p>Belum ada kontak.</p>
+        </div>
+      `;
       return;
     }
 
-    const statuses = JSON.parse(
-      localStorage.getItem("zeconnec_status_drafts") || "[]"
-    );
+    list.innerHTML = filtered.map(contact => `
+      <div class="contact-item">
+        <div class="avatar">${escapeHTML(contact.name.charAt(0).toUpperCase())}</div>
+        <div class="contact-info">
+          <h3>${escapeHTML(contact.name)}</h3>
+          <p>Kontak ZeConnec</p>
+        </div>
+        <button class="contact-chat" data-id="${contact.id}">Chat</button>
+      </div>
+    `).join("");
+
+    $$(".contact-chat").forEach(button => {
+      button.addEventListener("click", () => {
+        let chat = chats.find(item =>
+          String(item.contactId) === String(button.dataset.id)
+        );
+
+        if (!chat) {
+          const contact = contacts.find(item =>
+            String(item.id) === String(button.dataset.id)
+          );
+
+          chat = {
+            id: Date.now(),
+            contactId: contact.id,
+            name: contact.name,
+            lastMessage: "",
+            time: "",
+            unread: 0,
+            type: "personal"
+          };
+
+          chats.unshift(chat);
+          saveData(STORAGE.chats, chats);
+        }
+
+        renderChats();
+
+        $(".nav-item[data-page='chatPage']")?.click();
+        openChat(chat.id);
+      });
+    });
+  }
+
+  $("#contactSearch")?.addEventListener("input", renderContacts);
+
+  $("#addContactBtn")?.addEventListener("click", () => {
+    const name = prompt("Masukkan nama kontak:");
+
+    if (!name || !name.trim()) return;
+
+    contacts.push({
+      id: Date.now(),
+      name: name.trim()
+    });
+
+    saveData(STORAGE.contacts, contacts);
+    renderContacts();
+  });
+
+  $("#newChatBtn")?.addEventListener("click", () => {
+    $(".nav-item[data-page='contactsPage']")?.click();
+  });
+
+  /* STATUS */
+
+  function renderStatuses() {
+    const list = $("#statusList");
+    if (!list) return;
+
+    if (!statuses.length) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <p>Belum ada pembaruan status.</p>
+        </div>
+      `;
+      return;
+    }
+
+    list.innerHTML = statuses.map(status => `
+      <div class="contact-item">
+        <div class="avatar">${escapeHTML(profile.name.charAt(0).toUpperCase())}</div>
+        <div class="contact-info">
+          <h3>${escapeHTML(status.text)}</h3>
+          <p>${escapeHTML(status.time)}</p>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  $("#addStatusBtn")?.addEventListener("click", () => {
+    const text = prompt("Tulis status:");
+
+    if (!text || !text.trim()) return;
 
     statuses.unshift({
-      type: "text",
-      content: text,
-      createdAt: Date.now()
+      id: Date.now(),
+      text: text.trim(),
+      time: new Date().toLocaleString("id-ID")
     });
 
-    localStorage.setItem(
-      "zeconnec_status_drafts",
-      JSON.stringify(statuses.slice(0, 20))
-    );
-
-    textStatusInput.value = "";
-
-    if (textStatusCounter) {
-      textStatusCounter.textContent = "0/500";
-    }
-
-    if (textStatusModal) {
-      textStatusModal.hidden = true;
-    }
-
-    showMessage(
-      "Status tersimpan di perangkat ini. Status belum dibagikan kepada pengguna lain."
-    );
+    saveData(STORAGE.statuses, statuses);
+    renderStatuses();
   });
 
-  /* ---------- MEDIA STATUS ---------- */
+  /* PROFILE */
 
-  const statusImageInput = $("#statusImageInput");
-  const statusVideoInput = $("#statusVideoInput");
-
-  const statusImagePreview = $("#statusImagePreview");
-  const statusVideoPreview = $("#statusVideoPreview");
-
-  const statusMediaCaption = $("#statusMediaCaption");
-  const statusPreviewModal = $("#statusPreviewModal");
-
-  let currentMediaUrl = null;
-  let currentMediaType = null;
-  let currentMediaFile = null;
-
-  function clearMediaPreview() {
-    if (currentMediaUrl) {
-      URL.revokeObjectURL(currentMediaUrl);
-      currentMediaUrl = null;
-    }
-
-    currentMediaType = null;
-    currentMediaFile = null;
-
-    if (statusImageInput) {
-      statusImageInput.value = "";
-    }
-
-    if (statusVideoInput) {
-      statusVideoInput.value = "";
-    }
-
-    if (statusImagePreview) {
-      statusImagePreview.removeAttribute("src");
-      statusImagePreview.hidden = true;
-    }
-
-    if (statusVideoPreview) {
-      statusVideoPreview.pause();
-      statusVideoPreview.removeAttribute("src");
-      statusVideoPreview.load();
-      statusVideoPreview.hidden = true;
-    }
-
-    if (statusMediaCaption) {
-      statusMediaCaption.value = "";
-    }
+  function renderProfile() {
+    $("#profileName").textContent = profile.name;
+    $("#profileAbout").textContent = profile.about;
+    $("#profileAvatar").textContent =
+      profile.name.charAt(0).toUpperCase();
   }
 
-  function previewMedia(file, type) {
-    if (!file) return;
+  $("#editProfileBtn")?.addEventListener("click", () => {
+    const name = prompt("Nama profil:", profile.name);
+    if (!name || !name.trim()) return;
 
-    const maxSize = 50 * 1024 * 1024;
+    const about = prompt("Tentang saya:", profile.about);
+    if (about === null) return;
 
-    if (file.size > maxSize) {
-      showMessage("Ukuran file maksimal 50 MB.");
-      return;
-    }
+    profile = {
+      name: name.trim(),
+      about: about.trim()
+    };
 
-    if (currentMediaUrl) {
-      URL.revokeObjectURL(currentMediaUrl);
-    }
-
-    currentMediaUrl = URL.createObjectURL(file);
-    currentMediaType = type;
-    currentMediaFile = file;
-
-    if (statusImagePreview) {
-      statusImagePreview.hidden = true;
-    }
-
-    if (statusVideoPreview) {
-      statusVideoPreview.pause();
-      statusVideoPreview.hidden = true;
-    }
-
-    if (type === "image" && statusImagePreview) {
-      statusImagePreview.src = currentMediaUrl;
-      statusImagePreview.hidden = false;
-    }
-
-    if (type === "video" && statusVideoPreview) {
-      statusVideoPreview.src = currentMediaUrl;
-      statusVideoPreview.hidden = false;
-      statusVideoPreview.load();
-    }
-
-    if (statusPreviewModal) {
-      statusPreviewModal.hidden = false;
-    }
-  }
-
-  if (statusImageInput) {
-    statusImageInput.addEventListener("change", () => {
-      const file = statusImageInput.files[0];
-
-      if (!file) return;
-
-      if (!file.type.startsWith("image/")) {
-        showMessage("Pilih file gambar yang valid.");
-        statusImageInput.value = "";
-        return;
-      }
-
-      previewMedia(file, "image");
-    });
-  }
-
-  if (statusVideoInput) {
-    statusVideoInput.addEventListener("change", () => {
-      const file = statusVideoInput.files[0];
-
-      if (!file) return;
-
-      if (!file.type.startsWith("video/")) {
-        showMessage("Pilih file video yang valid.");
-        statusVideoInput.value = "";
-        return;
-      }
-
-      previewMedia(file, "video");
-    });
-  }
-
-  addClick("#closeStatusPreview", () => {
-    if (statusPreviewModal) {
-      statusPreviewModal.hidden = true;
-    }
-
-    clearMediaPreview();
+    saveData(STORAGE.profile, profile);
+    renderProfile();
   });
 
-  if (statusPreviewModal) {
-    statusPreviewModal.addEventListener("click", (event) => {
-      if (event.target === statusPreviewModal) {
-        statusPreviewModal.hidden = true;
-        clearMediaPreview();
-      }
-    });
-  }
+  /* SEARCH BUTTON */
 
-  addClick("#publishMediaStatus", () => {
-    if (!currentMediaFile || !currentMediaType) {
-      showMessage("Pilih foto atau video terlebih dahulu.");
-      return;
-    }
-
-    showMessage(
-      "Pratinjau media berhasil. Untuk membagikan foto atau video kepada pengguna lain, backend dan penyimpanan ZeConnec perlu diaktifkan."
-    );
+  $("#searchBtn")?.addEventListener("click", () => {
+    $(".nav-item[data-page='chatPage']")?.click();
+    $("#chatSearch")?.focus();
   });
 
-  /* ---------- STATUS VIEWER ---------- */
+  /* MENU BUTTON */
 
-  const statusViewer = $("#statusViewer");
-
-  addClick("#closeStatusViewer", () => {
-    if (statusViewer) {
-      statusViewer.hidden = true;
-    }
+  $("#menuBtn")?.addEventListener("click", () => {
+    alert("ZeConnec\n\nPlatform komunikasi modern.");
   });
 
-  if (statusViewer) {
-    statusViewer.addEventListener("click", (event) => {
-      if (event.target === statusViewer) {
-        statusViewer.hidden = true;
-      }
-    });
-  }
+  /* INITIALIZE */
 
-  addClick("#viewAllStatusBtn", () => {
-    const savedStatuses = JSON.parse(
-      localStorage.getItem("zeconnec_status_drafts") || "[]"
-    );
-
-    if (savedStatuses.length === 0) {
-      showMessage("Belum ada status tersimpan di perangkat ini.");
-      return;
-    }
-
-    const latestStatus = savedStatuses[0];
-
-    showMessage(
-      `Status terakhir: ${latestStatus.content || "Status media"}`
-    );
-  });
-
-  /* ---------- ESCAPE KEY ---------- */
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape") return;
-
-    closeStatusModal();
-
-    if (textStatusModal) {
-      textStatusModal.hidden = true;
-    }
-
-    if (statusPreviewModal) {
-      statusPreviewModal.hidden = true;
-      clearMediaPreview();
-    }
-
-    if (statusViewer) {
-      statusViewer.hidden = true;
-    }
-  });
-
-  /* ---------- SERVICE WORKER ---------- */
-
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("./service-worker.js")
-        .catch((error) => {
-          console.error(
-            "ZeConnec Service Worker Error:",
-            error
-          );
-        });
-    });
-  }
+  renderChats();
+  renderContacts();
+  renderStatuses();
+  renderProfile();
 
 });
