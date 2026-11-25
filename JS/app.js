@@ -113,10 +113,15 @@ if (authScreen && appElement && authForm) {
     }
   });
 
-  if (data.session?.user) {
-    syncUserProfile(data.session.user);
-  }
-});
+    supabaseClient.auth.onAuthStateChange((_event, session) => {
+    showAuth(session);
+
+    if (session?.user) {
+      setTimeout(() => {
+        syncUserProfile(session.user);
+      }, 0);
+    }
+  });
 
   supabaseClient.auth.getSession().then(({ data, error }) => {
     if (error) {
@@ -125,6 +130,10 @@ if (authScreen && appElement && authForm) {
     }
 
     showAuth(data.session);
+
+    if (data.session?.user) {
+      syncUserProfile(data.session.user);
+    }
   });
 }
 
