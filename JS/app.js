@@ -147,6 +147,31 @@ if (authScreen && appElement && authForm) {
   function saveData(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
   }
+   /* SUPABASE PROFILE SYNC */
+
+async function syncUserProfile(user) {
+  if (!user) return;
+
+  const username =
+    user.user_metadata?.display_name ||
+    user.email?.split("@")[0] ||
+    "Pengguna";
+
+  const { error } = await supabaseClient
+    .from("profiles")
+    .upsert({
+      id: user.id,
+      username: username,
+      full_name: username,
+      status_text: "Hai! Saya menggunakan ZeConnec."
+    }, {
+      onConflict: "id"
+    });
+
+  if (error) {
+    console.error("Profile sync error:", error.message);
+  }
+}
 
   let chats = loadData(STORAGE.chats, []);
   let contacts = loadData(STORAGE.contacts, []);
