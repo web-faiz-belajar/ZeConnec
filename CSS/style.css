@@ -962,3 +962,321 @@ button,
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ========================================
+   ZeConnec — iOS Design Refinement
+======================================== */
+
+/* GENERAL */
+
+:root {
+  --ios-radius: 18px;
+  --ios-small-radius: 12px;
+}
+
+body {
+  letter-spacing: -0.2px;
+}
+
+.app {
+  max-width: 650px;
+}
+
+/* HEADER */
+
+.header {
+  min-height: 64px;
+  padding: 0 20px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-left h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+}
+
+.header-actions {
+  gap: 5px;
+}
+
+.header-actions button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 23px;
+}
+
+.header-actions button:active,
+.page-heading button:active {
+  background: var(--surface-3);
+}
+
+/* PAGE TITLES */
+
+.page-heading {
+  padding: 30px 20px 20px;
+}
+
+.page-heading h2 {
+  font-size: 31px;
+  font-weight: 750;
+  letter-spacing: -1.2px;
+}
+
+.page-heading button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--surface-2);
+}
+
+/* SEARCH */
+
+.search-box {
+  height: 45px;
+  margin: 0 18px 18px;
+  border-radius: 13px;
+  background: var(--surface-2);
+  border: none;
+}
+
+.search-box input {
+  font-size: 15px;
+}
+
+/* FILTER */
+
+.chat-filter {
+  gap: 8px;
+  padding-bottom: 18px;
+}
+
+.filter {
+  padding: 9px 17px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* CONTENT LISTS */
+
+.chat-item,
+.contact-item,
+.call-item {
+  min-height: 78px;
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--border);
+  gap: 14px;
+}
+
+.chat-item:active,
+.contact-item:active,
+.call-item:active {
+  background: var(--surface-2);
+}
+
+.avatar {
+  width: 51px;
+  height: 51px;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.chat-top h3,
+.contact-info h3,
+.call-info h3 {
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.chat-preview,
+.contact-info p,
+.call-info p {
+  font-size: 13px;
+}
+
+/* STATUS */
+
+.my-status {
+  padding: 17px 20px;
+  min-height: 86px;
+}
+
+.section-label {
+  padding: 24px 20px 12px;
+  font-size: 11px;
+  letter-spacing: 0.7px;
+}
+
+/* PROFILE */
+
+.profile-card {
+  padding: 35px 20px;
+}
+
+.profile-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  font-size: 36px;
+}
+
+.profile-card h2 {
+  font-size: 21px;
+}
+
+.profile-card p {
+  font-size: 13px;
+}
+
+/* SETTINGS */
+
+.settings-list {
+  margin: 12px 15px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--ios-radius);
+  background: var(--surface);
+}
+
+.setting-item {
+  min-height: 72px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-item h3 {
+  font-size: 14px;
+}
+
+.setting-item p {
+  font-size: 12px;
+}
+
+/* ICONS */
+
+.icon {
+  width: 23px;
+  height: 23px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.nav-item {
+  border-radius: 17px;
+}
+
+.nav-item .icon {
+  width: 23px;
+  height: 23px;
+}
+
+.nav-item small {
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+/* CHAT WINDOW */
+
+.chat-window-header {
+  min-height: 68px;
+  padding: 9px 16px;
+}
+
+.chat-window-header > button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.chat-messages {
+  padding: 20px 16px;
+  gap: 10px;
+}
+
+.message-bubble {
+  padding: 11px 15px;
+  border-radius: 19px;
+  font-size: 15px;
+}
+
+.chat-composer {
+  padding: 12px 14px;
+}
+
+.chat-composer input {
+  height: 46px;
+  border-radius: 25px;
+  font-size: 15px;
+}
+
+/* EMPTY STATE */
+
+.empty-state {
+  padding: 75px 24px;
+}
+
+.empty-state h3 {
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.empty-state p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* SMOOTH INTERACTION */
+
+button,
+.chat-item,
+.contact-item,
+.call-item {
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.16s ease;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* LIGHT MODE */
+
+body.light .header {
+  background: var(--bg);
+}
+
+body.light .settings-list {
+  background: var(--surface);
+}
+
+body.light .bottom-nav {
+  background: rgba(255, 255, 255, 0.94);
+}
+
+/* SMALL SCREENS */
+
+@media (max-width: 380px) {
+  .page-heading h2 {
+    font-size: 28px;
+  }
+
+  .header {
+    padding: 0 15px;
+  }
+
+  .chat-item,
+  .contact-item,
+  .call-item {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
