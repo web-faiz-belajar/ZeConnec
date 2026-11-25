@@ -159,8 +159,12 @@ if (authScreen && appElement && authForm) {
   }
    /* SUPABASE PROFILE SYNC */
 
+let profileSyncChecked = false;
+
 async function syncUserProfile(user) {
-  if (!user) return;
+  if (!user || profileSyncChecked) return;
+
+  profileSyncChecked = true;
 
   const username =
     user.user_metadata?.display_name ||
@@ -179,21 +183,12 @@ async function syncUserProfile(user) {
     });
 
   if (error) {
-    console.error("Profile sync error:", error.message);
+    profileSyncChecked = false;
+    alert("Gagal menyimpan profil: " + error.message);
+  } else {
+    alert("Profil berhasil disimpan ke Supabase!");
   }
 }
-
-  let chats = loadData(STORAGE.chats, []);
-  let contacts = loadData(STORAGE.contacts, []);
-  let statuses = loadData(STORAGE.statuses, []);
-
-  let profile = loadData(STORAGE.profile, {
-    name: "Pengguna ZeConnec",
-    about: "Hai! Saya menggunakan ZeConnec."
-  });
-
-  let currentFilter = "all";
-
   /* THEME */
 
   function setTheme(theme) {
