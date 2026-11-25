@@ -8,6 +8,124 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => document.querySelectorAll(selector);
+   /* SUPABASE AUTH */
+
+const authScreen = $("#authScreen");
+const authForm = $("#authForm");
+const authName = $("#authName");
+const authEmail = $("#authEmail");
+const authPassword = $("#authPassword");
+const authSubmit = $("#authSubmit");
+const authMessage = $("#authMessage");
+const loginTab = $("#loginTab");
+const registerTab = $("#registerTab");
+const appElement = $(".app");
+
+let isRegisterMode = false;
+
+if (authScreen && appElement && authForm) {
+  appElement.style.display = "none";
+
+  function showAuth(session) {
+    if (session) {
+      authScreen.style.display = "none";
+      appElement.style.display = "";
+    } else {
+      authScreen.style.display = "flex";
+      appElement.style.display = "none";
+    }
+  }
+
+  function setAuthMode(register) {
+    isRegisterMode = register;
+
+    authName.hidden = !register;
+    authName.required = register;
+
+    loginTab.classList.toggle("active", !register);
+    registerTab.classList.toggle("active", register);
+
+    authSubmit.textContent = register ? "Daftar" : "Masuk";
+    authMessage.textContent = "";
+  }
+
+  loginTab.addEventListener("click", () => {
+    setAuthMode(false);
+  });
+
+  registerTab.addEventListener("click", () => {
+    setAuthMode(true);
+  });
+
+  authForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const email = authEmail.value.trim();
+    const password = authPassword.value;
+    const name = authName.value.trim();
+
+    if (isRegisterMode && !name) {
+      authMessage.textContent = "Masukkan nama pengguna.";
+      return;
+    }
+
+    authSubmit.disabled = true;
+    authSubmit.textContent = "Memproses...";
+
+    try {
+      let result;
+
+      if (isRegisterMode) {
+        result = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              display_name: name
+            }
+          }
+        });
+      } else {
+        result = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+      }
+
+      if (result.error) throw result.error;
+
+      if (isRegisterMode && !result.data.session) {
+        authMessage.textContent =
+          "Pendaftaran berhasil. Silakan periksa email untuk konfirmasi.";
+      } else {
+        authMessage.textContent = "Berhasil masuk!";
+      }
+
+      if (result.data.session) {
+        showAuth(result.data.session);
+      }
+
+    } catch (error) {
+      authMessage.textContent = error.message;
+    } finally {
+      authSubmit.disabled = false;
+      authSubmit.textContent = isRegisterMode ? "Daftar" : "Masuk";
+    }
+  });
+
+  supabaseClient.auth.onAuthStateChange((_event, session) => {
+    showAuth(session);
+  });
+
+  supabaseClient.auth.getSession().then(({ data, error }) => {
+    if (error) {
+      authMessage.textContent = error.message;
+      return;
+    }
+
+    showAuth(data.session);
+  });
+}
 
   const STORAGE = {
     theme: "zeconnec_theme",
