@@ -196,6 +196,28 @@ async function syncUserProfile(user) {
     alert("Profil berhasil disimpan ke Supabase!");
   }
 }
+   async function loadUserProfile(user) {
+  if (!user) return;
+
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("username, full_name, status_text")
+    .eq("id", user.id)
+    .single();
+
+  if (error) {
+    console.error("Load profile error:", error.message);
+    return;
+  }
+
+  profile = {
+    name: data.full_name || data.username || "Pengguna",
+    about: data.status_text || "Hai! Saya menggunakan ZeConnec."
+  };
+
+  saveData(STORAGE.profile, profile);
+  renderProfile();
+}
   /* THEME */
 
   function setTheme(theme) {
