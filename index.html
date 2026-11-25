@@ -14,7 +14,36 @@
 </head>
 
 <body>
+  
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <img src="./assets/icons/icon-512.png" alt="ZeConnec">
 
+    <h1>Selamat datang</h1>
+    <p>Masuk atau buat akun ZeConnec.</p>
+
+    <div class="auth-tabs">
+      <button id="loginTab" class="active">Masuk</button>
+      <button id="registerTab">Daftar</button>
+    </div>
+
+    <form id="authForm">
+      <input id="authName" type="text"
+        placeholder="Nama pengguna" hidden>
+
+      <input id="authEmail" type="email"
+        placeholder="Alamat email" required>
+
+      <input id="authPassword" type="password"
+        placeholder="Password" required minlength="6">
+
+      <button id="authSubmit" type="submit">Masuk</button>
+    </form>
+
+    <p id="authMessage" aria-live="polite"></p>
+  </div>
+</div>
+  
   <div class="app">
 
     <header class="header">
