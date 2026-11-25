@@ -135,7 +135,10 @@ if (authScreen && appElement && authForm) {
     showAuth(data.session);
 
     if (data.session?.user) {
-      syncUserProfile(data.session.user);
+      (async () => {
+  await syncUserProfile(data.session.user);
+  await loadUserProfile(data.session.user);
+})();
     }
   });
 }
