@@ -118,7 +118,10 @@ if (authScreen && appElement && authForm) {
 
     if (session?.user) {
       setTimeout(() => {
-        syncUserProfile(session.user);
+        (async () => {
+  await syncUserProfile(session.user);
+  await loadUserProfile(session.user);
+})();
       }, 0);
     }
   });
