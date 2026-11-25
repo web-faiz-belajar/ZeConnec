@@ -160,9 +160,10 @@ if (authScreen && appElement && authForm) {
     }
   }
 
-  function saveData(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
+  let profile = loadData(STORAGE.profile, {
+  name: "Pengguna ZeConnec",
+  about: "Hai! Saya menggunakan ZeConnec."
+});
    /* SUPABASE PROFILE SYNC */
 
 let profileSyncChecked = false;
